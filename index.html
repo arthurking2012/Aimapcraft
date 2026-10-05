@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ომების ანიმაციური 2D რუკა • ისტორიული ბრძოლების გენერატორი</title>
+  
+  <!-- Fonts: Noto Sans Georgian + Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Noto+Sans+Georgian:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- ================= TOP DOCUMENTARY HEADER ================= -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div>
+        <h1 class="brand-title">ომების ანიმაციური 2D რუკა</h1>
+        <p class="brand-sub">სატელიტური, ტოპოგრაფიული და ისტორიული კამპანიების გენერატორი</p>
+      </div>
+    </div>
+
+    <!-- Center HUD Banner: Date & Active Event -->
+    <div class="hud-center-banner shadow-lg">
+      <div class="hud-date-pill">
+        <i class="fa-regular fa-calendar-days text-amber-400"></i>
+        <span id="hudCurrentDate">1121 წლის 12 აგვისტო</span>
+      </div>
+      <div class="h-4 w-px bg-slate-600"></div>
+      <div class="hud-event-text" id="hudEventTitle">
+        დავით აღმაშენებლის შეტევა დიდგორის ველზე
+      </div>
+      <div id="hudStatusBadge" class="px-2.5 py-1 rounded-full text-[11px] font-bold border bg-rose-500/20 text-rose-400 border-rose-500/40 animate-pulse">
+        მიმდინარეობს ბრძოლა!
+      </div>
+    </div>
+
+    <!-- Top Action Buttons -->
+    <div class="header-actions">
+      <!-- Undo / Redo -->
+      <div class="flex items-center gap-1 bg-slate-800/80 p-1 rounded-lg border border-slate-700">
+        <button id="btnUndo" class="btn-ctrl px-2 py-1 text-xs" title="გაუქმება (Ctrl+Z)" disabled>
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+        <button id="btnRedo" class="btn-ctrl px-2 py-1 text-xs" title="აღდგენა (Ctrl+Y)" disabled>
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+      </div>
+
+      <button id="btnOpenPromptModal" class="btn-header btn-header-primary">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <span>ახალი აღწერა (Prompt)</span>
+      </button>
+
+      <button id="btnOpenMapManagerModal" class="btn-header btn-header-outline border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20">
+        <i class="fa-solid fa-earth-americas"></i>
+        <span>რუკების მართვა / დამატება</span>
+      </button>
+
+      <button id="btnOpenPresetsModal" class="btn-header btn-header-gold">
+        <i class="fa-solid fa-landmark"></i>
+        <span>შაბლონები</span>
+      </button>
+
+      <button id="btnOpenEditorModal" class="btn-header btn-header-outline">
+        <i class="fa-solid fa-sliders"></i>
+        <span>რედაქტორი</span>
+      </button>
+
+      <button id="btnOpenExportModal" class="btn-header btn-header-outline border-sky-500/50 text-sky-400 hover:bg-sky-500/20">
+        <i class="fa-solid fa-video"></i>
+        <span>ვიდეო ექსპორტი</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= MAIN VIEWPORT & CANVAS ================= -->
+  <main class="main-viewport">
+    <canvas id="warMapCanvas"></canvas>
+
+    <!-- Floating Left Panel (Factions Legend & Map Controls) -->
+    <aside class="floating-panel-left">
+      <div class="floating-panel-title">
+        <span>დაპირისპირებული მხარეები</span>
+        <i class="fa-solid fa-flag text-slate-400 text-xs"></i>
+      </div>
+      <div id="factionsLegendList" class="space-y-1 mb-3">
+        <!-- Dynamically rendered factions and troops -->
+      </div>
+
+      <div class="floating-panel-title mt-3">
+        <span>რუკის ფენები და სტილი</span>
+        <i class="fa-solid fa-layer-group text-slate-400 text-xs"></i>
+      </div>
+      <div class="space-y-1.5 text-xs text-slate-300">
+        <label class="flex items-center justify-between cursor-pointer py-1 px-1.5 hover:bg-slate-800 rounded">
+          <span>სატელიტური რელიეფი</span>
+          <input type="checkbox" id="chkSatelliteRelief" checked class="rounded border-slate-700 text-sky-500 focus:ring-0">
+        </label>
+        <label class="flex items-center justify-between cursor-pointer py-1 px-1.5 hover:bg-slate-800 rounded">
+          <span>ტერიტორიული კონტროლი</span>
+          <input type="checkbox" id="chkTerritory" checked class="rounded border-slate-700 text-sky-500 focus:ring-0">
+        </label>
+        <label class="flex items-center justify-between cursor-pointer py-1 px-1.5 hover:bg-slate-800 rounded">
+          <span>ტაქტიკური დეტალები (Zoom)</span>
+          <input type="checkbox" id="chkTacticalView" checked class="rounded border-slate-700 text-sky-500 focus:ring-0">
+        </label>
+        <label class="flex items-center justify-between cursor-pointer py-1 px-1.5 hover:bg-slate-800 rounded">
+          <span>წარწერები და სახელები</span>
+          <input type="checkbox" id="chkLabels" checked class="rounded border-slate-700 text-sky-500 focus:ring-0">
+        </label>
+        <label class="flex items-center justify-between cursor-pointer py-1 px-1.5 hover:bg-slate-800 rounded">
+          <span>კოორდინატთა ბადე</span>
+          <input type="checkbox" id="chkGrid" checked class="rounded border-slate-700 text-sky-500 focus:ring-0">
+        </label>
+      </div>
+
+      <div class="mt-3 pt-2 border-t border-slate-700/60">
+        <label class="block text-[11px] font-semibold text-slate-400 mb-1">რუკის ფონური სტილი:</label>
+        <select id="mapThemeSelector" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200">
+          <option value="satellite" selected>🛰️ სატელიტური რუკა (Google / ESRI)</option>
+          <option value="topography">🏔️ ტოპოგრაფიული რელიეფი (Shaded Relief)</option>
+          <option value="carto_detailed">🗺️ დეტალური პოლიტიკური & გზები</option>
+          <option value="parchment">📜 ისტორიული პერგამენტი</option>
+          <option value="dark_tactical">⬛ ტაქტიკური მუქი</option>
+          <option value="custom">🖼️ ატვირთული რუკის ფოტო</option>
+        </select>
+      </div>
+
+      <div class="mt-3 p-2 bg-slate-900/60 rounded text-[10px] text-slate-400 leading-tight border border-slate-800">
+        <i class="fa-solid fa-circle-info text-sky-400 mr-1"></i>
+        <span>შენიშვნა: დანაყოფის რუკიდან გაქრობა ნიშნავს ბრძოლის ველის დატოვებას ან დაშლას.</span>
+      </div>
+    </aside>
+
+    <!-- Floating Right Panel (Chronicle / Event Timeline) -->
+    <aside class="floating-panel-right">
+      <div class="floating-panel-title">
+        <div class="flex items-center gap-1.5">
+          <i class="fa-solid fa-scroll text-amber-400"></i>
+          <span>კამპანიის ქრონიკა</span>
+        </div>
+        <span id="hudCampaignTitle" class="text-[10px] font-mono text-sky-400 font-bold truncate max-w-[130px]">დიდგორი 1121</span>
+      </div>
+      
+      <!-- Event Narrative Overview -->
+      <div class="p-2.5 bg-slate-900/80 rounded-lg border border-slate-800 mb-2">
+        <p id="hudEventDescription" class="text-xs text-slate-300 leading-relaxed italic">
+          არმიების განლაგება და მანევრირება დიდგორის მიდამოებში...
+        </p>
+      </div>
+
+      <!-- Keyframe Event List -->
+      <div id="chronicleEventsList" class="chronicle-scroll-area">
+        <!-- Dynamically rendered events list -->
+      </div>
+    </aside>
+
+    <!-- Floating Navigation / Zoom Buttons -->
+    <div class="floating-nav-tools">
+      <button id="btnZoomIn" class="btn-nav-tool" title="მოახლოება (+)">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      <button id="btnZoomOut" class="btn-nav-tool" title="დაშორება (-)">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+      <button id="btnResetView" class="btn-nav-tool" title="ხედის გასწორება (R)">
+        <i class="fa-solid fa-arrows-to-dot"></i>
+      </button>
+    </div>
+  </main>
+
+  <!-- ================= BOTTOM TIMELINE & CONTROLS ================= -->
+  <footer class="app-timeline-bar">
+    <!-- Draggable Timeline Track -->
+    <div class="timeline-track-container">
+      <div class="timeline-progress-bg">
+        <div id="timelineProgressFill" class="timeline-progress-fill"></div>
+      </div>
+      <div id="timelineKeyframeTicks" class="absolute inset-0 pointer-events-auto">
+        <!-- Keyframe ticks rendered here -->
+      </div>
+      <input type="range" id="timelineScrubber" min="0" max="100" value="0" step="0.1" class="timeline-range-input">
+    </div>
+
+    <!-- Bottom Playback Controls Row -->
+    <div class="timeline-controls-row">
+      <!-- Playback buttons -->
+      <div class="playback-buttons">
+        <button id="btnRewind" class="btn-ctrl" title="წინა მოვლენა">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="btnStepBack" class="btn-ctrl" title="უკან 3 წმ">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span class="text-[11px]">-3წმ</span>
+        </button>
+        
+        <button id="btnPlayPause" class="btn-ctrl btn-play-highlight">
+          <i class="fa-solid fa-play text-white"></i>
+          <span>დაკვრა (Play)</span>
+        </button>
+
+        <button id="btnStepForward" class="btn-ctrl" title="წინ 3 წმ">
+          <span class="text-[11px]">+3წმ</span>
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <button id="btnFastForward" class="btn-ctrl" title="შემდეგი მოვლენა">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+
+      <!-- Time Readout -->
+      <div class="flex items-center gap-3">
+        <div id="currentTimeDisplay" class="time-readout">00:00 / 00:16</div>
+        
+        <div class="flex items-center gap-1.5 text-xs text-slate-300">
+          <label for="speedSelector" class="text-slate-400 font-semibold">სიჩქარე:</label>
+          <select id="speedSelector" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+            <option value="0.25">0.25x</option>
+            <option value="0.5">0.5x</option>
+            <option value="1.0" selected>1.0x (ნორმალური)</option>
+            <option value="1.5">1.5x</option>
+            <option value="2.0">2.0x (სწრაფი)</option>
+            <option value="4.0">4.0x</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-1.5 text-xs text-slate-300">
+          <label for="presetSelector" class="text-slate-400 font-semibold">სწრაფი შერჩევა:</label>
+          <select id="presetSelector" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-sky-300 max-w-[160px] truncate">
+            <!-- Loaded dynamically -->
+          </select>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL: MAPS MANAGER & CUSTOM UPLOAD ================= -->
+  <div id="mapManagerModal" class="modal-backdrop hidden">
+    <div class="modal-dialog max-w-2xl">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-earth-americas text-emerald-400 text-lg"></i>
+          <h2 class="text-base font-bold text-white">რუკების მართვა, სატელიტური ფოტოები და ატვირთვა</h2>
+        </div>
+        <button class="modal-close-btn text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          აირჩიეთ რეალური გეოგრაფიული სატელიტური რუკა, მთების ტოპოგრაფიული რელიეფი ან <strong>ატვირთეთ თქვენი საკუთარი ისტორიული რუკის ფოტო</strong>.
+        </p>
+
+        <!-- Map Layer Presets Grid -->
+        <div>
+          <label class="block text-xs font-bold text-slate-200 mb-2">რუკის ფონის ტიპი:</label>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+            <button class="btn-map-type-choice p-3 rounded-xl border border-slate-700 bg-slate-800 hover:border-sky-500 text-left transition-all" data-map-type="satellite">
+              <div class="text-sm font-bold text-white mb-1">🛰️ სატელიტური</div>
+              <p class="text-[10px] text-slate-400">რეალური ფოტოები, მთები, მდინარეები</p>
+            </button>
+            <button class="btn-map-type-choice p-3 rounded-xl border border-slate-700 bg-slate-800 hover:border-sky-500 text-left transition-all" data-map-type="topography">
+              <div class="text-sm font-bold text-white mb-1">🏔️ ტოპოგრაფია</div>
+              <p class="text-[10px] text-slate-400">რელიეფის სიმაღლეები და ქედები</p>
+            </button>
+            <button class="btn-map-type-choice p-3 rounded-xl border border-slate-700 bg-slate-800 hover:border-sky-500 text-left transition-all" data-map-type="carto_detailed">
+              <div class="text-sm font-bold text-white mb-1">🗺️ პოლიტიკური</div>
+              <p class="text-[10px] text-slate-400">საზღვრები, გზები, ქვეყნის სახელები</p>
+            </button>
+            <button class="btn-map-type-choice p-3 rounded-xl border border-slate-700 bg-slate-800 hover:border-sky-500 text-left transition-all" data-map-type="parchment">
+              <div class="text-sm font-bold text-white mb-1">📜 პერგამენტი</div>
+              <p class="text-[10px] text-slate-400">კლასიკური ისტორიული ატლასი</p>
+            </button>
+            <button class="btn-map-type-choice p-3 rounded-xl border border-slate-700 bg-slate-800 hover:border-sky-500 text-left transition-all" data-map-type="dark_tactical">
+              <div class="text-sm font-bold text-white mb-1">⬛ ტაქტიკური</div>
+              <p class="text-[10px] text-slate-400">მაღალი კონტრასტის მუქი რუკა</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Map File Upload Box -->
+        <div class="bg-slate-900/90 p-4 rounded-xl border border-dashed border-emerald-500/50 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400">🖼️ საკუთარი რუკის / ფოტოს ატვირთვა:</span>
+            <span class="text-[10px] text-slate-400">PNG, JPG, SVG, WEBP</span>
+          </div>
+          <input type="file" id="customMapFileInput" accept="image/*" class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 cursor-pointer">
+          
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <label class="text-xs text-slate-400 whitespace-nowrap">რუკის გამჭვირვალობა:</label>
+            <input type="range" id="customMapOpacityInput" min="0.1" max="1.0" step="0.05" value="0.85" class="w-full">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          დახურვა
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: UNLIMITED NATURAL LANGUAGE PROMPT ================= -->
+  <div id="promptModal" class="modal-backdrop hidden">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-feather-pointed text-sky-400 text-lg"></i>
+          <h2 class="text-base font-bold text-white">ისტორიული ომის აღწერა (Natural Language Prompt)</h2>
+        </div>
+        <button class="modal-close-btn text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body space-y-3">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          შეიყვანეთ ისტორიული ომის, ბრძოლის ან სამხედრო კამპანიის აღწერა <strong>ნებისმიერი მოცულობით (შეუზღუდავი ტექსტი)</strong>. 
+          სისტემა ავტომატურად განსაზღვრავს მხარეებს, ქალაქებს, არმიებს, შეტევის მიმართულებებს, ალყებს, უკანდახევასა და ტერიტორიულ ცვლილებებს.
+        </p>
+
+        <textarea 
+          id="promptTextInput" 
+          rows="11" 
+          class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 font-mono focus:border-sky-500 focus:outline-none leading-relaxed"
+          placeholder="შეიყვანეთ ტექსტი ქართულად ან ინგლისურად..."
+        ></textarea>
+
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <div class="flex items-center gap-2">
+            <button id="btnLoadExamplePrompt" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded border border-slate-700">
+              <i class="fa-solid fa-lightbulb mr-1"></i> მაგალითის ჩატვირთვა
+            </button>
+            <button id="btnClearPrompt" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded border border-slate-700">
+              <i class="fa-solid fa-trash mr-1"></i> გასუფთავება
+            </button>
+          </div>
+          <span class="text-[11px] italic">მხარდაჭერილია ქართული და ინგლისური ენები</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          გაუქმება
+        </button>
+        <button id="btnGenerateMap" class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold flex items-center gap-2 shadow-lg shadow-sky-600/30">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>რუკის გენერირება</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: HISTORICAL PRESETS ================= -->
+  <div id="presetsModal" class="modal-backdrop hidden">
+    <div class="modal-dialog max-w-4xl">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-landmark text-amber-400 text-lg"></i>
+          <h2 class="text-base font-bold text-white">ისტორიული ომებისა და ბრძოლების შაბლონები</h2>
+        </div>
+        <button class="modal-close-btn text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="presetsModalGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- Dynamically populated preset cards -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          დახურვა
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: SCENARIO EDITOR ================= -->
+  <div id="editorModal" class="modal-backdrop hidden">
+    <div class="modal-dialog max-w-3xl">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-emerald-400 text-lg"></i>
+          <h2 class="text-base font-bold text-white">სცენარის ვიზუალური რედაქტორი</h2>
+        </div>
+        <button class="modal-close-btn text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body space-y-4">
+        <!-- Tabs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xs font-bold text-sky-400 mb-2 uppercase tracking-wide">მხარეები და ფერები</h3>
+            <div id="editorFactionsList"></div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-amber-400 mb-2 uppercase tracking-wide">ქალაქები და ციხეები</h3>
+            <div id="editorCitiesList"></div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <h3 class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wide">არმიები და შენაერთები</h3>
+          <div id="editorArmiesList"></div>
+        </div>
+        <div class="mt-4">
+          <h3 class="text-xs font-bold text-purple-400 mb-2 uppercase tracking-wide">მოვლენების ქრონოლოგია (კადრები)</h3>
+          <div id="editorKeyframesList"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          დახურვა
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: VIDEO EXPORT & SCREEN RECORDING ================= -->
+  <div id="exportModal" class="modal-backdrop hidden">
+    <div class="modal-dialog max-w-xl">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-film text-sky-400 text-lg"></i>
+          <h2 class="text-base font-bold text-white">ვიდეო რენდერინგი და ჩამოტვირთვა</h2>
+        </div>
+        <button class="modal-close-btn text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          დააგენერირეთ სრული 2D ანიმაცია ვიდეო ფაილად თქვენს კომპიუტერში ჩამოსატვირთად. ვიდეო შეიცავს რუკას, არმიების მოძრაობას, ბრძოლებს, თარიღებსა და ტერიტორიულ ცვლილებებს.
+        </p>
+
+        <!-- Export Settings -->
+        <div class="grid grid-cols-2 gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">ვიდეოს გარჩევადობა:</label>
+            <select id="exportResolution" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white">
+              <option value="1080" selected>Full HD (1920x1080) - რეკომენდებული</option>
+              <option value="720">HD (1280x720) - სწრაფი</option>
+              <option value="4k">4K Ultra HD (3840x2160)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">კადრების სიხშირე (FPS):</label>
+            <select id="exportFps" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white">
+              <option value="30" selected>30 FPS (სტანდარტული)</option>
+              <option value="60">60 FPS (სუპერ გლუვი)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">ვიდეო ფორმატი:</label>
+            <select id="exportFormat" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white">
+              <option value="webm" selected>WebM (მაღალი ხარისხი)</option>
+              <option value="mp4">MP4 (უნივერსალური)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">პირდაპირი ეკრანის ჩაწერა:</label>
+            <button id="btnLiveScreenRecord" class="w-full py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-semibold text-rose-400 flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-circle-dot"></i>
+              <span>ეკრანის პირდაპირი ჩაწერა</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Render Progress Section -->
+        <div id="renderProgressSection" class="hidden space-y-2 bg-slate-900/90 p-4 rounded-xl border border-sky-500/40">
+          <div class="flex items-center justify-between text-xs">
+            <span id="renderProgressText" class="text-sky-300 font-semibold">მიმდინარეობს ვიდეოს რენდერინგი: 0%</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+            <div id="renderProgressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-400 w-0 transition-all duration-100"></div>
+          </div>
+        </div>
+
+        <!-- Download Finished Video Button Section -->
+        <div id="renderDownloadSection" class="hidden p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
+          <div class="flex items-center justify-center gap-2 text-emerald-400 font-bold text-sm">
+            <i class="fa-solid fa-circle-check text-lg"></i>
+            <span>ვიდეო წარმატებით გენერირებულია და მზადაა!</span>
+          </div>
+          <button id="btnDownloadVideo" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/30 transform transition-transform hover:scale-[1.02]">
+            <i class="fa-solid fa-download text-base"></i>
+            <span>ვიდეო ფაილის ჩამოტვირთვა (Download Video)</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          დახურვა
+        </button>
+        <button id="btnStartRender" class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold flex items-center gap-2 shadow-lg shadow-sky-600/30">
+          <i class="fa-solid fa-play"></i>
+          <span>ვიდეოს გენერირება (Render)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <!-- App Main ES Module Entry Point -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
