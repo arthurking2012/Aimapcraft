@@ -447,3 +447,35 @@ body {
   z-index: 110;
   pointer-events: none;
 }
+
+/* ================= FULLSCREEN WAR MAP MODE ================= */
+body.fullscreen-map-active .app-header,
+body.fullscreen-map-active .app-timeline-bar,
+body.fullscreen-map-active .floating-panel-left,
+body.fullscreen-map-active .floating-panel-right,
+body.fullscreen-map-active .floating-nav-tools {
+  display: none !important;
+}
+
+body.fullscreen-map-active .main-viewport {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+}
+
+body.fullscreen-map-active #fullscreenControlsBar {
+  display: flex !important;
+}
+
+/* REC blinking indicator */
+@keyframes recBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.85); }
+}
+
+.rec-blinking {
+  animation: recBlink 1s infinite ease-in-out;
+}
+

@@ -27,7 +27,26 @@ class WarMapApp {
     this.lastMousePos = { x: 0, y: 0 };
     this.mouseDownPos = { x: 0, y: 0 };
 
+    // Voice Narration & Speech Synthesis
+    this.voiceEnabled = true;
+    this.lastNarratedKeyframeIdx = -1;
+    this.georgianVoice = null;
+    this.initVoice();
+
     this.init();
+  }
+
+  initVoice() {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const loadVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        this.georgianVoice = voices.find(v => v.lang.startsWith("ka") || v.name.toLowerCase().includes("georgian")) || null;
+      };
+      loadVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
+    }
   }
 
   init() {
@@ -38,10 +57,18 @@ class WarMapApp {
 
     // Setup Animation Engine callbacks
     this.animationEngine.onTick = (time, state) => this.onAnimationTick(time, state);
-    this.animationEngine.onStateChange = (isPlaying) => this.updatePlayPauseButton(isPlaying);
-    this.animationEngine.onComplete = () => this.onAnimationComplete();
+    this.animationEngine.onStateChange = (isPlaying) => {
+      this.updatePlayPauseButton(isPlaying);
+      if (!isPlaying) {
+        this.stopVoice();
+      }
+    };
+    this.animationEngine.onComplete = () => {
+      this.onAnimationComplete();
+      this.stopVoice();
+    };
 
-    // Load initial scenario (Didgori 1121 preset)
+    // Load initial scenario (Abkhazia preset)
     this.loadPreset(HISTORICAL_PRESETS[0].id);
 
     // Initial render tick
@@ -66,6 +93,12 @@ class WarMapApp {
     if (pushHistory) {
       this.scenarioEditor.pushState(scenario, scenario.title);
     }
+
+    // Update voice preference based on scenario
+    this.voiceEnabled = scenario.voiceEnabled !== false;
+    this.lastNarratedKeyframeIdx = -1;
+    this.stopVoice();
+    this.updateVoiceButtonUI();
 
     this.updateHUD(scenario, this.animationEngine.getInterpolatedState(0));
     this.updateLegend(scenario);
@@ -104,11 +137,21 @@ class WarMapApp {
       this.hideEntityInspector();
 
       // 2. Parse new prompt dynamically
-      const newScenario = this.promptParser.parse(promptText);
+      const durationInput = parseInt(document.getElementById('promptVideoDuration')?.value, 10);
+const parseOptions = {};
+if (!isNaN(durationInput) && durationInput > 0) {
+  parseOptions.durationMinutes = durationInput;
+}
+const newScenario = this.promptParser.parse(promptText, parseOptions);
 
       // 3. Load newly generated scenario
       this.loadScenario(newScenario);
-      this.closeModal("promptModal");
+            // Update prompt textarea with summary for user visibility
+      const promptInput = document.getElementById('promptTextInput');
+      if (promptInput && newScenario.summary) {
+        promptInput.value = `${newScenario.rawPrompt}\n${newScenario.summary}`;
+      }
+
       this.showToast("ახალი რუკა წარმატებით აიგო! დააჭირეთ დაკვრას.", "success");
       
       // 4. Auto-play new simulation
@@ -143,6 +186,81 @@ class WarMapApp {
 
     this.updateHUD(this.currentScenario, state);
     this.highlightActiveChronicleEvent(time);
+
+    // Voice Narration trigger when passing keyframes
+    if (this.voiceEnabled && this.animationEngine.isPlaying && this.currentScenario?.keyframes) {
+      const activeIdx = this.getActiveKeyframeIndex(time);
+      if (activeIdx !== this.lastNarratedKeyframeIdx && activeIdx >= 0) {
+        this.lastNarratedKeyframeIdx = activeIdx;
+        this.speakEvent(this.currentScenario.keyframes[activeIdx]);
+      }
+    }
+  }
+
+  getActiveKeyframeIndex(time) {
+    if (!this.currentScenario?.keyframes) return -1;
+    const kfs = this.currentScenario.keyframes;
+    let idx = 0;
+    for (let i = 0; i < kfs.length; i++) {
+      if (time >= kfs[i].time - 0.2) {
+        idx = i;
+      }
+    }
+    return idx;
+  }
+
+  speakEvent(keyframe) {
+    if (!this.voiceEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    if (this.currentScenario && this.currentScenario.voiceEnabled === false) return;
+
+    window.speechSynthesis.cancel();
+
+    const textToSpeak = `${keyframe.title}. ${keyframe.description || ""}`;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    if (this.georgianVoice) {
+      utterance.voice = this.georgianVoice;
+      utterance.lang = this.georgianVoice.lang;
+    } else {
+      utterance.lang = "ka-GE";
+    }
+    utterance.rate = 1.05;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  stopVoice() {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }
+
+  toggleVoice() {
+    this.voiceEnabled = !this.voiceEnabled;
+    if (!this.voiceEnabled) {
+      this.stopVoice();
+      this.showToast("🔇 გახმოვანება გამორთულია", "info");
+    } else {
+      this.showToast("🔊 გახმოვანება ჩართულია (Georgian Voiceover)", "success");
+      const activeIdx = this.getActiveKeyframeIndex(this.animationEngine.currentTime);
+      if (activeIdx >= 0 && this.currentScenario?.keyframes) {
+        this.speakEvent(this.currentScenario.keyframes[activeIdx]);
+      }
+    }
+    this.updateVoiceButtonUI();
+  }
+
+  updateVoiceButtonUI() {
+    const btn = document.getElementById("btnFsVoiceToggle");
+    if (!btn) return;
+    if (this.voiceEnabled) {
+      btn.className = "p-2 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl text-xs";
+      btn.innerHTML = `<i class="fa-solid fa-volume-high"></i>`;
+    } else {
+      btn.className = "p-2 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-xl text-xs";
+      btn.innerHTML = `<i class="fa-solid fa-volume-xmark"></i>`;
+    }
   }
 
   updateHUD(scenario, state) {
@@ -337,15 +455,23 @@ class WarMapApp {
     });
 
     document.getElementById("btnRewind")?.addEventListener("click", () => {
+      this.stopVoice();
+      this.lastNarratedKeyframeIdx = -1;
       this.animationEngine.prevKeyframe();
     });
     document.getElementById("btnFastForward")?.addEventListener("click", () => {
+      this.stopVoice();
+      this.lastNarratedKeyframeIdx = -1;
       this.animationEngine.nextKeyframe();
     });
     document.getElementById("btnStepBack")?.addEventListener("click", () => {
+      this.stopVoice();
+      this.lastNarratedKeyframeIdx = -1;
       this.animationEngine.stepBack(3);
     });
     document.getElementById("btnStepForward")?.addEventListener("click", () => {
+      this.stopVoice();
+      this.lastNarratedKeyframeIdx = -1;
       this.animationEngine.stepForward(3);
     });
 
@@ -358,6 +484,8 @@ class WarMapApp {
     if (scrubber) {
       scrubber.addEventListener("input", (e) => {
         this.isDraggingTimeline = true;
+        this.stopVoice();
+        this.lastNarratedKeyframeIdx = -1;
         const ratio = parseFloat(e.target.value) / 100;
         this.animationEngine.seekNormalized(ratio);
       });
@@ -369,6 +497,8 @@ class WarMapApp {
     const trackContainer = document.querySelector(".timeline-track-container");
     if (trackContainer) {
       trackContainer.addEventListener("click", (e) => {
+        this.stopVoice();
+        this.lastNarratedKeyframeIdx = -1;
         const rect = trackContainer.getBoundingClientRect();
         const clickRatio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
         this.animationEngine.seekNormalized(clickRatio);
@@ -518,6 +648,32 @@ class WarMapApp {
       }
     });
 
+    // Fullscreen War Map & Floating Controls
+    document.getElementById("btnToggleFullscreen")?.addEventListener("click", () => {
+      this.toggleFullscreen();
+    });
+    document.getElementById("btnFsExit")?.addEventListener("click", () => {
+      this.toggleFullscreen();
+    });
+    document.getElementById("btnFsPlayPause")?.addEventListener("click", () => {
+      this.animationEngine.togglePlay();
+    });
+    document.getElementById("btnFsVoiceToggle")?.addEventListener("click", () => {
+      this.toggleVoice();
+    });
+    document.getElementById("btnFsRecord")?.addEventListener("click", () => {
+      this.handleToggleLiveRecording();
+    });
+    document.getElementById("btnFsWatchVideo")?.addEventListener("click", () => {
+      this.openVideoPreview();
+    });
+    document.getElementById("btnFsDownloadVideo")?.addEventListener("click", () => {
+      this.downloadRecordedVideo();
+    });
+    document.getElementById("btnDownloadFromPreview")?.addEventListener("click", () => {
+      this.downloadRecordedVideo();
+    });
+
     document.getElementById("btnLiveScreenRecord")?.addEventListener("click", () => {
       this.handleToggleLiveRecording();
     });
@@ -526,8 +682,47 @@ class WarMapApp {
       btn.addEventListener("click", (e) => {
         const modal = e.target.closest(".modal-backdrop");
         if (modal) modal.classList.add("hidden");
+        const videoEl = document.getElementById("previewVideoElement");
+        if (videoEl && modal?.id === "videoPreviewModal") {
+          videoEl.pause();
+        }
       });
     });
+  }
+
+  toggleFullscreen() {
+    const isFs = document.body.classList.toggle("fullscreen-map-active");
+    this.mapRenderer.resize();
+    const btn = document.getElementById("btnToggleFullscreen");
+    if (btn) {
+      btn.innerHTML = isFs ? `<i class="fa-solid fa-compress"></i>` : `<i class="fa-solid fa-expand"></i>`;
+    }
+    if (isFs) {
+      this.showToast("🔍 სრული ეკრანის რეჟიმი გააქტიურდა. გასასვლელად დააჭირეთ Esc ან F", "info");
+    }
+  }
+
+  openVideoPreview() {
+    if (!this.videoExporter.renderedUrl) {
+      this.showToast("ვიდეო ჯერ არ არის ჩაწერილი.", "error");
+      return;
+    }
+    const videoEl = document.getElementById("previewVideoElement");
+    if (videoEl) {
+      videoEl.src = this.videoExporter.renderedUrl;
+      videoEl.play().catch(() => {});
+    }
+    this.openModal("videoPreviewModal");
+  }
+
+  downloadRecordedVideo() {
+    try {
+      const filename = `istoriuli_omisa_animacia_${Date.now()}.webm`;
+      this.videoExporter.downloadVideo(filename);
+      this.showToast("📥 ვიდეოს ჩამოტვირთვა დაიწყო!", "success");
+    } catch (err) {
+      this.showToast(err.message, "error");
+    }
   }
 
   async handleStartRender() {
@@ -577,21 +772,45 @@ class WarMapApp {
   }
 
   handleToggleLiveRecording() {
-    const btn = document.getElementById("btnLiveScreenRecord");
+    const btnLive = document.getElementById("btnLiveScreenRecord");
+    const btnFs = document.getElementById("btnFsRecord");
+    const btnFsText = document.getElementById("btnFsRecordText");
+    const btnFsWatch = document.getElementById("btnFsWatchVideo");
+    const btnFsDownload = document.getElementById("btnFsDownloadVideo");
+
     if (!this.videoExporter.isLiveRecording) {
       try {
+        if (btnFsWatch) btnFsWatch.classList.add("hidden");
+        if (btnFsDownload) btnFsDownload.classList.add("hidden");
+
         this.videoExporter.startLiveRecording((blob, url, extension) => {
-          if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-circle-dot text-rose-500"></i> <span>${I18N.startScreenRecordBtn}</span>`;
+          // Restore record buttons UI
+          if (btnLive) {
+            btnLive.innerHTML = `<i class="fa-solid fa-circle-dot text-rose-500"></i> <span>${I18N.startScreenRecordBtn}</span>`;
           }
+          if (btnFs) {
+            btnFs.className = "px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-rose-600/30 transition-all";
+            btnFs.innerHTML = `<i class="fa-solid fa-circle text-[10px] animate-pulse"></i> <span>ვიდეოს ჩაწერა</span>`;
+          }
+          if (btnFsWatch) btnFsWatch.classList.remove("hidden");
+          if (btnFsDownload) btnFsDownload.classList.remove("hidden");
+
           const downloadSection = document.getElementById("renderDownloadSection");
           if (downloadSection) downloadSection.classList.remove("hidden");
-          this.showToast("ეკრანის ჩაწერა დასრულდა! ვიდეო მზადაა ჩამოსატვირთად.", "success");
+
+          this.showToast("🎬 ჩაწერა დასრულდა! ვიდეო მზადაა სანახავად და ჩამოსატვირთად.", "success");
+          this.openVideoPreview();
         });
-        if (btn) {
-          btn.innerHTML = `<i class="fa-solid fa-stop text-rose-400 animate-pulse"></i> <span>${I18N.stopScreenRecordBtn}</span>`;
+
+        if (btnLive) {
+          btnLive.innerHTML = `<i class="fa-solid fa-stop text-rose-400 animate-pulse"></i> <span>${I18N.stopScreenRecordBtn}</span>`;
         }
-        this.showToast("პირდაპირი ჩაწერა დაიწყო... გაუშვით ანიმაცია!", "info");
+        if (btnFs) {
+          btnFs.className = "px-3 py-1.5 bg-rose-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-rose-700/50 transition-all animate-pulse";
+          btnFs.innerHTML = `<i class="fa-solid fa-stop text-rose-200"></i> <span>ჩაწერის შეწყვეტა (Stop)</span>`;
+        }
+
+        this.showToast("🔴 მხოლოდ რუკის პირდაპირი ჩაწერა დაიწყო (60 FPS)...", "info");
         this.animationEngine.play();
       } catch (err) {
         this.showToast(err.message || "ჩაწერის შეცდომა", "error");
@@ -604,8 +823,11 @@ class WarMapApp {
   bindCanvasInteractions() {
     this.canvas.addEventListener("wheel", (e) => {
       e.preventDefault();
+      const rect = this.canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
       const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-      this.mapRenderer.zoomBy(zoomFactor);
+      this.mapRenderer.zoomBy(zoomFactor, mouseX, mouseY);
     }, { passive: false });
 
     this.canvas.addEventListener("mousedown", (e) => {
@@ -785,6 +1007,12 @@ class WarMapApp {
       } else if (e.code === "KeyR") {
         this.mapRenderer.resetView();
         this.hideEntityInspector();
+      } else if (e.code === "KeyF") {
+        e.preventDefault();
+        this.toggleFullscreen();
+      } else if (e.code === "KeyV") {
+        e.preventDefault();
+        this.toggleVoice();
       }
     });
   }

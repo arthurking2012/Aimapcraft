@@ -169,6 +169,9 @@ export class MapRenderer {
 
     // 12. Screen HUD (Scale bar, Compass)
     this.renderHUD(ctx, w, h, scenario);
+
+    // 13. Dynamic Documentary Subtitles & Narrative Event Banners (Non-blocking)
+    this.renderNarrativeSubtitles(ctx, w, h, scenario, currentState);
   }
 
   renderBaseBackground(ctx, w, h) {
@@ -713,13 +716,116 @@ export class MapRenderer {
     ctx.restore();
   }
 
+  renderNarrativeSubtitles(ctx, w, h, scenario, currentState) {
+    if (!scenario || !currentState) return;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    const dpr = (typeof window !== "undefined" && window.devicePixelRatio) ? window.devicePixelRatio : 1;
+    ctx.scale(dpr, dpr);
+
+    // 1. Check if scenario has a custom intro overlay text that fades in early
+    if (scenario.overlayText && currentState.time < 6.0) {
+      const introFade = currentState.time < 1.0 
+        ? currentState.time 
+        : currentState.time > 4.5 
+          ? Math.max(0, (6.0 - currentState.time) / 1.5) 
+          : 1.0;
+
+      if (introFade > 0.05) {
+        ctx.save();
+        ctx.globalAlpha = introFade;
+        const boxW = Math.min(w - 40, 720);
+        const boxH = 50;
+        const boxX = (w - boxW) / 2;
+        const boxY = 20;
+
+        ctx.fillStyle = "rgba(15, 23, 42, 0.92)";
+        ctx.strokeStyle = "rgba(250, 204, 21, 0.8)";
+        ctx.lineWidth = 1.5;
+        this.roundRect(ctx, boxX, boxY, boxW, boxH, 12, true, true);
+
+        ctx.font = "bold 13px 'Noto Sans Georgian', sans-serif";
+        ctx.fillStyle = "#facc15";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(`📜 ${scenario.overlayText}`, w / 2, boxY + boxH / 2);
+        ctx.restore();
+      }
+    }
+
+    // 2. Dynamic Cinematic Subtitle / Event Banner for Active Keyframe (Non-obstructive Lower Third)
+    const keyframe = currentState.currentKeyframe;
+    const titleText = currentState.title || keyframe?.title;
+    const descText = currentState.description || keyframe?.description || currentState.tacticalNote;
+
+    if (titleText || descText) {
+      const bannerW = Math.min(w - 80, 680);
+      const bannerH = descText ? 56 : 38;
+      const bannerX = (w - bannerW) / 2;
+      const bannerY = h - bannerH - 18;
+
+      ctx.save();
+      // Subtle glassmorphic card with dark blur & thin accent border
+      ctx.fillStyle = "rgba(10, 15, 29, 0.88)";
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.35)";
+      ctx.lineWidth = 1;
+      this.roundRect(ctx, bannerX, bannerY, bannerW, bannerH, 10, true, true);
+
+      // Phase Accent Left Strip
+      let accentColor = "#38bdf8"; // default blue
+      if (currentState.phase === "battle" || keyframe?.phase === "battle") accentColor = "#f43f5e";
+      else if (currentState.phase === "retreat" || keyframe?.phase === "retreat") accentColor = "#fbbf24";
+      else if (currentState.phase === "victory" || keyframe?.phase === "victory") accentColor = "#10b981";
+
+      ctx.fillStyle = accentColor;
+      ctx.fillRect(bannerX + 2, bannerY + 6, 3.5, bannerH - 12);
+
+      // Date pill on right
+      if (currentState.date) {
+        ctx.font = "bold 10px 'Noto Sans Georgian', sans-serif";
+        ctx.fillStyle = "#facc15";
+        ctx.textAlign = "right";
+        ctx.fillText(currentState.date, bannerX + bannerW - 14, bannerY + 16);
+      }
+
+      // Title
+      if (titleText) {
+        ctx.font = "bold 12px 'Noto Sans Georgian', sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "left";
+        ctx.fillText(titleText, bannerX + 14, bannerY + 16);
+      }
+
+      // Description / Dramatic subtitle
+      if (descText) {
+        ctx.font = "500 11px 'Noto Sans Georgian', sans-serif";
+        ctx.fillStyle = "#cbd5e1";
+        ctx.textAlign = "left";
+        const truncated = descText.length > 95 ? descText.slice(0, 92) + "..." : descText;
+        ctx.fillText(truncated, bannerX + 14, bannerY + 36);
+      }
+
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
   setTheme(themeKey) {
     this.theme = themeKey;
     this.geoEngine.setLayer(themeKey);
   }
 
-  zoomBy(factor) {
-    this.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.zoom * factor));
+  zoomBy(factor, centerX = this.width / 2, centerY = this.height / 2) {
+    const oldZoom = this.zoom;
+    const newZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.zoom * factor));
+    if (Math.abs(newZoom - oldZoom) < 0.001) return;
+
+    // Focal point adjustment so zooming focuses on mouse cursor or center
+    const scaleRatio = newZoom / oldZoom;
+    this.panX = (this.panX - (centerX - this.width / 2)) * scaleRatio + (centerX - this.width / 2);
+    this.panY = (this.panY - (centerY - this.height / 2)) * scaleRatio + (centerY - this.height / 2);
+    this.zoom = newZoom;
   }
 
   setZoom(value) {
@@ -738,3 +844,4 @@ export class MapRenderer {
     this.selectedEntity = null;
   }
 }
+

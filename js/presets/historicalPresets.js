@@ -6,18 +6,19 @@
 export const HISTORICAL_PRESETS = [
   {
     id: "abkhazia_1992_1993",
-    title: "აფხაზეთის ომი და სოხუმის ბრძოლა (1992–1993 წწ.)",
+    title: "აფხაზეთის ომი და სოხუმის ეპოპეა (1992–1993 წწ.)",
     period: "1992 წლის 14 აგვისტო – 1993 წლის 27 სექტემბერი",
     category: "საქართველოს უახლესი ისტორია",
-    description: "საქართველოს ტერიტორიული მთლიანობისთვის ბრძოლა: გაგრის დაცემა, გუმისტის ხაზის გმირული თავდაცვა, ტამიშის დესანტი და სოხუმის ალყა.",
+    description: "საქართველოს ტერიტორიული მთლიანობისთვის ბრძოლის სრული ქრონიკა: ენგურის გადაკვეთა, გაგრის ტრაგედია, გუმისტის გმირული თავდაცვა, ტამიშის დესანტის განადგურება, სოჭის ზავის მუხანათური დარღვევა, სოხუმის 11-დღიანი ალყა და ჭუბერის დევნილთა გოლგოთა.",
     prompt: `1992 წლის 14 აგვისტო – 1993 წლის 27 სექტემბერი. აფხაზეთის ომი.
-1992 წლის 14 აგვისტოს საქართველოს ეროვნული გვარდიის ნაწილები გენერალ ყარყარაშვილის მეთაურობით რკინიგზის დასაცავად გადავიდნენ ენგურზე, დაიკავეს ოჩამჩირე, გულრიფში და შევიდნენ სოხუმში.
-ჩრდილო-დასავლეთით გაგრაში განხორციელდა საზღვაო დესანტი და კონტროლი დამყარდა ლესელიძემდე.
-1992 წლის 2-6 ოქტომბერი: რუსული ავიაციისა და ჩრდილოკავკასიელ „კონფედერატთა“ (შამილ ბასაევის ბატალიონის) მასირებული შეტევით გაგრა დაეცა.
-1993 წლის 15-16 მარტი: სეპარატისტებმა და რუსულმა ნაწილებმა მდინარე გუმისტაზე განახორციელეს ფართომასშტაბიანი შტურმი სოხუმის ასაღებად. ქართველმა მებრძოლებმა გმირული თავდაცვით მოიგერიეს მტერი და უმძიმესი დანაკარგი მიაყენეს.
-1993 წლის 2 ივლისი: მტერმა ოჩამჩირის რაიონში, სოფელ ტამიშთან გადმოსხა საზღვაო დესანტი. ქართულმა შენაერთებმა კონტრშეტევით სრულად გაანადგურეს ტამიშის დესანტი.
-1993 წლის 16-27 სექტემბერი: სოჭის ზავის მუხანათური დარღვევის შემდეგ, მძიმე არტილერიითა და ავიაციით მტერმა სრული ალყა შემოარტყა განიარაღებულ სოხუმს.
-11-დღიანი უთანასწორო ბრძოლის შემდეგ სოხუმი დაეცა. ქართულმა ძალებმა და მშვიდობიანმა მოსახლეობამ ჭუბერის უღელტეხილითა და ენგურის მიმართულებით დაიხია უკან.`,
+ვიდეოს ხანგრძლივობა: 3 წუთი.
+1992 წლის 14 აგვისტოს საქართველოს ეროვნული გვარდიის შენაერთები გენერალ გია ყარყარაშვილის მეთაურობით რკინიგზისა და სატრანსპორტო დერეფნის დასაცავად გადავიდნენ ენგურზე, დაიკავეს გალი, ოჩამჩირე, გულრიფში და შევიდნენ სოხუმში. პარალელურად გაგრაში განხორციელდა საზღვაო დესანტი და კონტროლი დამყარდა ლესელიძემდე. არძინბას სეპარატისტული ძალები გუდაუთის რუსულ სამხედრო ბაზაზე გადაჯგუფდნენ.
+1992 წლის 2-6 ოქტომბერი: რუსული ავიაციისა და ჩრდილოკავკასიელ კონფედერატთა (შამილ ბასაევის ბატალიონის, კაზაკების) მასირებული იერიშით გაგრა დაეცა. დაიწყო მშვიდობიანი ქართველი მოსახლეობის სასტიკი ეთნიკური წმენდა. ქართულმა ძალებმა გუმისტის ხაზზე დაიკავეს თავდაცვა.
+1993 წლის 15-16 მარტი: სეპარატისტებმა და რუსეთის რეგულარულმა ნაწილებმა მდინარე გუმისტაზე განახორციელეს ფართომასშტაბიანი შტურმი სოხუმის ასაღებად. გენერალ გენო ადამიას 23-ე ბრიგადისა და ქართველი მებრძოლების გმირული თავდაცვით მტერს უმძიმესი მარცხი მიადგა.
+1993 წლის 2-10 ივლისი: მტერმა ოჩამჩირის რაიონში, სოფელ ტამიშთან რუსული სამხედრო ხომალდებიდან გადმოსხა ელიტური საზღვაო დესანტი სოხუმის ზურგის მოსაჭრელად. ქართულმა შენაერთებმა კონტრშეტევით სრულად გაანადგურეს ტამიშის დესანტი და გახსნეს სტრატეგიული მაგისტრალი.
+1993 წლის 27 ივლისი: რუსეთის შუამავლობით დაიდო სოჭის სამშვიდობო ზავი. ქართულმა მხარემ პირობა შეასრულა და სოხუმიდან გაიყვანა მძიმე ტექნიკა და არტილერია.
+1993 წლის 16-27 სექტემბერი: მტერმა მუხანათურად დაარღვია სოჭის ზავი, მძიმე არტილერიით, ტანკებითა და ავიაციით სრული ალყა შემოარტყა განიარაღებულ სოხუმს. 11-დღიანი უთანასწორო გმირული ბრძოლის შემდეგ, 27 სექტემბერს სოხუმი დაეცა. მთავრობის თავმჯდომარე ჟიული შარტავა და მინისტრთა საბჭოს წევრები გმირულად დაიღუპნენ.
+1993 წლის სექტემბრის ბოლო – ოქტომბერი: 300 000-მდე მშვიდობიანი დევნილი და მებრძოლები ჭუბერის თოვლიანი უღელტეხილითა და ენგურის მიმართულებით დაიძრნენ. აფხაზეთის ტერიტორია დროებით ოკუპირებულია.`,
     scenarioData: {
       id: "abkhazia_1992_1993",
       title: "აფხაზეთის ომი და სოხუმის ბრძოლა (1992–1993 წწ.)",
@@ -29,214 +30,317 @@ export const HISTORICAL_PRESETS = [
         { id: "abkhaz_coalition", name: "აფხაზური ფორმირებები & კონფედერატები", primaryColor: "#dc2626", lightColor: "rgba(220, 38, 38, 0.28)", borderColor: "#b91c1c" }
       ],
       cities: [
-        { id: "sokhumi", name: "სოხუმი (დედაქალაქი)", x: 500, y: 290, importance: "capital", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 3 },
-        { id: "gagra", name: "გაგრა", x: 240, y: 170, importance: "fortress", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 },
-        { id: "gumista", name: "მდ. გუმისტის ხაზი", x: 440, y: 270, importance: "battlefield", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 },
-        { id: "gudauta", name: "გუდაუთა (მტრის ბაზა)", x: 360, y: 220, importance: "fortress", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 2 },
-        { id: "tamishi", name: "ტამიში / ოჩამჩირე", x: 680, y: 390, importance: "town", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 1 },
-        { id: "tkvarcheli", name: "ტყვარჩელი", x: 690, y: 290, importance: "town", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 1 },
-        { id: "enguri", name: "ენგურის ხაზი / ზუგდიდი", x: 840, y: 470, importance: "capital", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 }
+        { id: "leselidze", name: "ლესელიძე (სასაზღვრო ხაზი)", x: 130, y: 110, importance: "town", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 1 },
+        { id: "gagra", name: "გაგრა", x: 220, y: 155, importance: "fortress", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 },
+        { id: "pitsunda", name: "ბიჭვინთა", x: 270, y: 215, importance: "town", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 1 },
+        { id: "gudauta", name: "გუდაუთა (სეპარატისტთა ბაზა)", x: 360, y: 220, importance: "fortress", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 3 },
+        { id: "akhali_atoni", name: "ახალი ათონი", x: 420, y: 245, importance: "town", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 1 },
+        { id: "gumista", name: "მდ. გუმისტის ფრონტის ხაზი", x: 475, y: 270, importance: "battlefield", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 3 },
+        { id: "sokhumi", name: "სოხუმი (დედაქალაქი & ციტადელი)", x: 530, y: 290, importance: "capital", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 3 },
+        { id: "gulripshi", name: "გულრიფში & ბაბუშერა", x: 600, y: 340, importance: "town", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 },
+        { id: "tamishi", name: "ტამიში & კინდღი", x: 670, y: 385, importance: "battlefield", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 1 },
+        { id: "ochamchire", name: "ოჩამჩირე", x: 720, y: 415, importance: "town", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 2 },
+        { id: "tkvarcheli", name: "ტყვარჩელი (ანკლავი)", x: 730, y: 295, importance: "fortress", ownerFactionId: "abkhaz_coalition", isBesieged: false, fortificationLevel: 2 },
+        { id: "gali", name: "გალი", x: 810, y: 465, importance: "town", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 1 },
+        { id: "chuberi", name: "ჭუბერის უღელტეხილი (სვანეთი)", x: 875, y: 175, importance: "fortress", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 1 },
+        { id: "enguri", name: "ენგურის ხიდი & ზუგდიდი", x: 910, y: 510, importance: "capital", ownerFactionId: "georgia_guard", isBesieged: false, fortificationLevel: 3 }
       ],
       armies: [
-        { id: "geo_main", name: "საქართველოს ეროვნული გვარდია (ყარყარაშვილი)", commander: "გენერალი გია ყარყარაშვილი", factionId: "georgia_guard", startX: 800, startY: 450, x: 800, y: 450, strength: 18000, maxStrength: 18000, unitType: "infantry_heavy", status: "ready" },
-        { id: "geo_gagra", name: "გაგრის დაჯგუფება და „ავაზა“", commander: "გაგრის ბატალიონები", factionId: "georgia_guard", startX: 250, startY: 180, x: 250, y: 180, strength: 4500, maxStrength: 4500, unitType: "infantry_heavy", status: "ready" },
-        { id: "geo_sokhumi_corps", name: "სოხუმის 23-ე ბრიგადა & მოხალისეები", commander: "გენერალი გენო ადამია", factionId: "georgia_guard", startX: 490, startY: 280, x: 490, y: 280, strength: 8500, maxStrength: 8500, unitType: "infantry_heavy", status: "ready" },
-        { id: "abkhaz_gudauta", name: "გუდაუთის დაჯგუფება & კონფედერატები", commander: "არძინბა / სულთან სოსნალიევი", factionId: "abkhaz_coalition", startX: 350, startY: 210, x: 350, y: 210, strength: 12000, maxStrength: 12000, unitType: "infantry_heavy", status: "ready" },
-        { id: "basaev_batalion", name: "ბასაევის ჩეჩნური ბატალიონი & კაზაკები", commander: "შამილ ბასაევი", factionId: "abkhaz_coalition", startX: 210, startY: 120, x: 210, y: 120, strength: 6000, maxStrength: 6000, unitType: "cavalry", status: "ready" }
+        { id: "geo_main", name: "საქართველოს ეროვნული გვარდია", commander: "გენერალი გია ყარყარაშვილი", factionId: "georgia_guard", startX: 880, startY: 490, x: 880, y: 490, strength: 16000, maxStrength: 16000, unitType: "infantry_heavy", status: "ready" },
+        { id: "geo_sokhumi_corps", name: "სოხუმის 23-ე ბრიგადა & მოხალისეები", commander: "გენერალი გენო ადამია", factionId: "georgia_guard", startX: 520, startY: 280, x: 520, y: 280, strength: 8500, maxStrength: 8500, unitType: "infantry_heavy", status: "ready" },
+        { id: "geo_gagra", name: "გაგრის დაჯგუფება და „ავაზა“", commander: "გაგრის ბატალიონები", factionId: "georgia_guard", startX: 220, startY: 165, x: 220, y: 165, strength: 4200, maxStrength: 4200, unitType: "infantry_heavy", status: "ready" },
+        { id: "geo_refugees", name: "მშვიდობიანი მოსახლეობა (დევნილები)", commander: "დევნილთა კოლონა", factionId: "georgia_guard", startX: 540, startY: 300, x: 540, y: 300, strength: 250000, maxStrength: 250000, unitType: "infantry_light", status: "ready" },
+        { id: "abkhaz_gudauta", name: "გუდაუთის დაჯგუფება & რუსული ნაწილები", commander: "ვლადისლავ არძინბა / სოსნალიევი", factionId: "abkhaz_coalition", startX: 350, startY: 215, x: 350, y: 215, strength: 14000, maxStrength: 14000, unitType: "infantry_heavy", status: "ready" },
+        { id: "basaev_batalion", name: "ჩრდილოკავკასიელთა კონფედერაცია (ბასაევი)", commander: "შამილ ბასაევი & კაზაკები", factionId: "abkhaz_coalition", startX: 190, startY: 110, x: 190, y: 110, strength: 7500, maxStrength: 7500, unitType: "cavalry", status: "ready" },
+        { id: "russian_desant", name: "ტამიშის საზღვაო დესანტი", commander: "საზღვაო ელიტური დესანტი", factionId: "abkhaz_coalition", startX: 670, startY: 430, x: 670, y: 430, strength: 3500, maxStrength: 3500, unitType: "infantry_heavy", status: "ready" }
       ],
       keyframes: [
         {
           time: 0,
           date: "1992 წლის 14-18 აგვისტო",
           title: "ქართული ძალების შესვლა და კონტროლის დამყარება",
-          description: "ეროვნული გვარდია გადადის ენგურზე, ათავისუფლებს ოჩამჩირესა და სოხუმს. გაგრაში ხორციელდება საზღვაო დესანტი. სეპარატისტები გუდაუთაში იხევენ.",
+          description: "ეროვნული გვარდია გია ყარყარაშვილის მეთაურობით რკინიგზის დასაცავად გადადის ენგურზე, ათავისუფლებს გალს, ოჩამჩირესა და სოხუმს. გაგრაში ხორციელდება საზღვაო დესანტი ლესელიძემდე. სეპარატისტები გუდაუთის ბაზაზე იხევენ.",
           phase: "advance",
           armyPositions: {
-            geo_main: { x: 520, y: 310, strength: 18000, status: "marching" },
-            geo_gagra: { x: 250, y: 180, strength: 4500, status: "ready" },
-            geo_sokhumi_corps: { x: 490, y: 280, strength: 8500, status: "ready" },
-            abkhaz_gudauta: { x: 350, y: 210, strength: 12000, status: "ready" },
-            basaev_batalion: { x: 210, y: 120, strength: 6000, status: "ready" }
+            geo_main: { x: 550, y: 310, strength: 16000, status: "marching" },
+            geo_sokhumi_corps: { x: 520, y: 280, strength: 8500, status: "ready" },
+            geo_gagra: { x: 220, y: 160, strength: 4200, status: "ready" },
+            geo_refugees: { x: 540, y: 300, strength: 250000, status: "ready" },
+            abkhaz_gudauta: { x: 350, y: 215, strength: 14000, status: "ready" },
+            basaev_batalion: { x: 190, y: 110, strength: 7500, status: "ready" },
+            russian_desant: { x: 670, y: 450, strength: 0, status: "ready" }
           },
           arrows: [
-            { fromX: 800, fromY: 450, toX: 520, toY: 310, color: "#2563eb", type: "advance", label: "ენგურის გადაკვეთა და სოხუმის დაკავება" }
+            { fromX: 880, fromY: 490, toX: 550, toY: 310, color: "#2563eb", type: "advance", label: "ენგურის გადაკვეთა და სოხუმის დაკავება" }
           ],
           cityStates: [
-            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "leselidze", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "gagra", ownerFactionId: "georgia_guard", isBesieged: false },
-            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tamishi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
           ],
-          tacticalNote: "საქართველოს ძალები აკონტროლებენ აფხაზეთის ტერიტორიის 80%-ს."
+          tacticalNote: "საქართველოს ძალები აკონტროლებენ აფხაზეთის ტერიტორიის 85%-ს."
         },
         {
-          time: 6,
+          time: 25,
           date: "1992 წლის 2-6 ოქტომბერი - გაგრის ტრაგედია",
           title: "გაგრის დაცემა და ჩრდილოეთის ფრონტის მოშლა",
-          description: "რუსული ავიაციისა და მძიმე ტექნიკის მხარდაჭერით ბასაევის ბატალიონი და კონფედერატები თავს ესხმიან გაგრას. გაგრა ეცემა, მტერი ახორციელებს მშვიდობიანი მოსახლეობის ეთნოწმენდას.",
+          description: "რუსული ავიაციის, ტანკებისა და ჩრდილოკავკასიელი კონფედერატების (ბასაევის ბატალიონი) მასირებული იერიში გაგრაზე. გაგრა ეცემა; მტერი ახორციელებს მშვიდობიანი მოსახლეობის სასტიკ ეთნოწმენდას.",
           phase: "battle",
           armyPositions: {
-            geo_main: { x: 500, y: 300, strength: 17500, status: "ready" },
-            geo_gagra: { x: 210, y: 200, strength: 1200, status: "retreating" },
-            geo_sokhumi_corps: { x: 460, y: 270, strength: 8500, status: "ready" },
-            abkhaz_gudauta: { x: 310, y: 200, strength: 11800, status: "marching" },
-            basaev_batalion: { x: 240, y: 170, strength: 5800, status: "in_combat" }
+            geo_main: { x: 500, y: 295, strength: 15500, status: "ready" },
+            geo_sokhumi_corps: { x: 480, y: 275, strength: 8400, status: "ready" },
+            geo_gagra: { x: 190, y: 190, strength: 1100, status: "retreating" },
+            geo_refugees: { x: 540, y: 300, strength: 250000, status: "ready" },
+            abkhaz_gudauta: { x: 300, y: 195, strength: 13500, status: "marching" },
+            basaev_batalion: { x: 220, y: 155, strength: 7200, status: "in_combat" },
+            russian_desant: { x: 670, y: 450, strength: 0, status: "ready" }
           },
           arrows: [
-            { fromX: 210, fromY: 120, toX: 240, toY: 170, color: "#dc2626", type: "advance", label: "იერიში გაგრაზე" },
-            { fromX: 250, fromY: 180, toX: 200, toY: 220, color: "#e11d48", type: "retreat", label: "უკანდახევა" }
+            { fromX: 190, fromY: 110, toX: 220, toY: 155, color: "#dc2626", type: "advance", label: "იერიში გაგრაზე" },
+            { fromX: 220, fromY: 165, toX: 180, toY: 210, color: "#e11d48", type: "retreat", label: "გაგრის დაჯგუფების უკანდახევა" }
           ],
           battleClashes: [
-            { x: 240, y: 170, intensity: 1.0, label: "გაგრის ბრძოლა" }
+            { x: 220, y: 155, intensity: 1.0, label: "გაგრის ბრძოლა" }
           ],
           cityStates: [
-            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tamishi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
           ],
-          tacticalNote: "ჩრდილოეთის ფრონტი მოიშალა; ძირითადი თავდაცვითი ხაზი გუმისტაზე გადადის."
+          tacticalNote: "ჩრდილოეთის ფრონტი მოიშალა; მთავარი თავდაცვითი პოზიცია გუმისტის მდინარეზე გამაგრდა."
         },
         {
-          time: 12,
+          time: 55,
           date: "1993 წლის 15-16 მარტი - გუმისტის ეპოპეა",
           title: "მდინარე გუმისტის გმირული თავდაცვა და მტრის მოგერიება",
-          description: "სეპარატისტებმა და რუსულმა სპეცდანიშნულების ნაწილებმა სოხუმის ასაღებად გუმისტაზე მასირებული იერიში მიიტანეს. ქართველმა მებრძოლებმა მტერს გამანადგურებელი დარტყმა მიაყენეს.",
+          description: "სეპარატისტებმა და რუსეთის რეგულარულმა არმიამ სოხუმის ასაღებად გუმისტაზე მასირებული იერიში მიიტანეს. გენო ადამიას 23-ე ბრიგადამ მტერს გამანადგურებელი დარტყმა მიაყენა და უკუაქცია.",
           phase: "battle",
           armyPositions: {
-            geo_main: { x: 470, y: 280, strength: 16800, status: "in_combat" },
-            geo_gagra: { x: 990, y: 990, strength: 0, status: "eliminated" },
-            geo_sokhumi_corps: { x: 450, y: 260, strength: 8200, status: "in_combat" },
-            abkhaz_gudauta: { x: 420, y: 250, strength: 8000, status: "in_combat" },
-            basaev_batalion: { x: 400, y: 220, strength: 4200, status: "in_combat" }
+            geo_main: { x: 490, y: 285, strength: 15000, status: "in_combat" },
+            geo_sokhumi_corps: { x: 475, y: 270, strength: 8200, status: "in_combat" },
+            geo_gagra: { x: 999, y: 999, strength: 0, status: "eliminated" },
+            geo_refugees: { x: 540, y: 300, strength: 250000, status: "ready" },
+            abkhaz_gudauta: { x: 450, y: 260, strength: 9500, status: "in_combat" },
+            basaev_batalion: { x: 430, y: 240, strength: 5200, status: "in_combat" },
+            russian_desant: { x: 670, y: 450, strength: 0, status: "ready" }
           },
           arrows: [
-            { fromX: 360, fromY: 220, toX: 430, toY: 260, color: "#dc2626", type: "advance", label: "გუმისტის შტურმი" }
+            { fromX: 360, fromY: 220, toX: 470, toY: 268, color: "#dc2626", type: "advance", label: "გუმისტის მასირებული შტურმი" }
           ],
           battleClashes: [
-            { x: 440, y: 265, intensity: 1.0, label: "გუმისტის სასტიკი ბრძოლა" }
+            { x: 475, y: 270, intensity: 1.0, label: "გუმისტის სასტიკი ბრძოლა" }
           ],
           cityStates: [
-            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tamishi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
           ],
-          tacticalNote: "ქართველთა არტილერიამ და ქვეითებმა გუმისტის ხაზზე მტრის შეტევა სრულად ჩაახშეს."
+          tacticalNote: "ქართველმა არტილერისტებმა და ქვეითებმა გუმისტის ხაზზე მტრის შეტევა სრულად ჩაახშეს."
         },
         {
-          time: 18,
+          time: 90,
           date: "1993 წლის 2-10 ივლისი - ტამიშის დესანტის განადგურება",
-          title: "ტამიშის საზღვაო დესანტის ლიკვიდაცია",
-          description: "მტერმა რუსული სამხედრო გემებით ოჩამჩირეში, სოფელ ტამიშთან 600-კაციანი ელიტური დესანტი გადმოსხა სოხუმის ზურგის მოსაჭრელად. ქართულმა შენაერთებმა კონტრშეტევით დესანტი სრულად გაანადგურეს.",
+          title: "ტამიშის საზღვაო დესანტის სრული ლიკვიდაცია",
+          description: "მტერმა რუსული სამხედრო ხომალდებიდან ოჩამჩირეში, სოფელ ტამიშთან 600-კაციანი ელიტური დესანტი გადმოსხა სოხუმის ზურგის მოსაჭრელად. ქართულმა შენაერთებმა კონტრშეტევით დესანტი სრულად გაანადგურეს.",
           phase: "battle",
           armyPositions: {
-            geo_main: { x: 460, y: 270, strength: 16000, status: "ready" },
-            geo_gagra: { x: 990, y: 990, strength: 0, status: "eliminated" },
-            geo_sokhumi_corps: { x: 670, y: 370, strength: 7800, status: "in_combat" },
-            abkhaz_gudauta: { x: 410, y: 240, strength: 7500, status: "ready" },
-            basaev_batalion: { x: 680, y: 400, strength: 1500, status: "in_combat" }
+            geo_main: { x: 490, y: 280, strength: 14800, status: "ready" },
+            geo_sokhumi_corps: { x: 650, y: 375, strength: 7900, status: "in_combat" },
+            geo_gagra: { x: 999, y: 999, strength: 0, status: "eliminated" },
+            geo_refugees: { x: 540, y: 300, strength: 250000, status: "ready" },
+            abkhaz_gudauta: { x: 440, y: 250, strength: 9200, status: "ready" },
+            basaev_batalion: { x: 420, y: 235, strength: 5000, status: "ready" },
+            russian_desant: { x: 670, y: 385, strength: 900, status: "in_combat" }
           },
           arrows: [
-            { fromX: 520, fromY: 340, toX: 670, toY: 380, color: "#2563eb", type: "advance", label: "ტამიშის კონტრშეტევა" }
+            { fromX: 600, fromY: 340, toX: 670, toY: 385, color: "#2563eb", type: "advance", label: "ტამიშის კონტრშეტევა" },
+            { fromX: 670, fromY: 430, toX: 670, toY: 385, color: "#dc2626", type: "advance", label: "საზღვაო დესანტი" }
           ],
           battleClashes: [
-            { x: 680, y: 390, intensity: 1.0, label: "ტამიშის ბრძოლა" }
+            { x: 670, y: 385, intensity: 1.0, label: "ტამიშის სასტიკი ბრძოლა" }
           ],
           cityStates: [
-            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
-            { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tamishi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
           ],
-          tacticalNote: "სოხუმ-ოჩამჩირის მაგისტრალი გაიხსნა; მტრის გეგმა ჩაიშალა."
+          tacticalNote: "სოხუმ-ოჩამჩირის ცენტრალური მაგისტრალი გაიხსნა; მტრის ჩანაფიქრი ჩაიშალა."
         },
         {
-          time: 24,
-          date: "1993 წლის 16-27 სექტემბერი - სოჭის ზავის დარღვევა და სოხუმის ალყა",
-          title: "სოხუმის დაცემა და უთანასწორო ბრძოლა",
-          description: "სოჭის ზავით ქართულმა მხარემ მძიმე ტექნიკა გაიყვანა. 16 სექტემბერს მტერმა მუხანათურად დაარღვია ზავი და სოხუმს ყველა მხრიდან შემოარტყა ალყა. 27 სექტემბერს ქალაქი დაეცა.",
-          phase: "retreat",
+          time: 120,
+          date: "1993 წლის 27 ივლისი - სოჭის ზავი და განიარაღება",
+          title: "სოჭის სამშვიდობო ზავი და მძიმე ტექნიკის გაყვანა",
+          description: "რუსეთის გარანტიებით დაიდო სოჭის ზავი. ქართულმა მხარემ პატიოსნად შეასრულა ხელშეკრულება და სოხუმიდან გაიყვანა მძიმე ტექნიკა და არტილერია. სეპარატისტები ფარულად მოემზადნენ მოღალატეობრივი დარტყმისთვის.",
+          phase: "advance",
           armyPositions: {
-            geo_main: { x: 740, y: 430, strength: 9500, status: "retreating" },
-            geo_gagra: { x: 990, y: 990, strength: 0, status: "eliminated" },
-            geo_sokhumi_corps: { x: 500, y: 290, strength: 2200, status: "in_combat" },
-            abkhaz_gudauta: { x: 490, y: 280, strength: 16000, status: "in_combat" },
-            basaev_batalion: { x: 510, y: 300, strength: 6500, status: "in_combat" }
-          },
-          arrows: [
-            { fromX: 420, fromY: 250, toX: 500, toY: 290, color: "#dc2626", type: "advance", label: "სოხუმის ალყა და შტურმი" },
-            { fromX: 500, fromY: 310, toX: 740, toY: 430, color: "#e11d48", type: "retreat", label: "უკანდახევა ენგურისკენ" }
-          ],
-          battleClashes: [
-            { x: 500, y: 290, intensity: 1.0, label: "სოხუმის უკანასკნელი თავდაცვა" }
-          ],
-          cityStates: [
-            { id: "sokhumi", ownerFactionId: "abkhaz_coalition", isBesieged: true },
-            { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "gumista", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "tamishi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
-          ],
-          tacticalNote: "ჟიული შარტავა და მთავრობის წევრები გმირულად დაეცნენ სოხუმში; 300,000 ლტოლვილი ტოვებს აფხაზეთს."
-        },
-        {
-          time: 30,
-          date: "1993 წლის ოქტომბერი - ენგურის გამყოფი ხაზი",
-          title: "კამპანიის დასასრული და ენგურის პოზიციების გამაგრება",
-          description: "ქართულმა ძალებმა პოზიციები ენგურის გასწვრივ დაიკავეს. აფხაზეთი დროებით ოკუპირებულია, ბრძოლა საქართველოს ერთიანობისთვის გრძელდება.",
-          phase: "victory",
-          armyPositions: {
-            geo_main: { x: 840, y: 470, strength: 9000, status: "garrison" },
-            geo_gagra: { x: 990, y: 990, strength: 0, status: "eliminated" },
-            geo_sokhumi_corps: { x: 830, y: 450, strength: 1800, status: "garrison" },
-            abkhaz_gudauta: { x: 500, y: 290, strength: 15500, status: "garrison" },
-            basaev_batalion: { x: 480, y: 280, strength: 6000, status: "garrison" }
+            geo_main: { x: 700, y: 400, strength: 14000, status: "ready" },
+            geo_sokhumi_corps: { x: 530, y: 290, strength: 6500, status: "ready" },
+            geo_gagra: { x: 999, y: 999, strength: 0, status: "eliminated" },
+            geo_refugees: { x: 540, y: 300, strength: 250000, status: "ready" },
+            abkhaz_gudauta: { x: 440, y: 250, strength: 15000, status: "ready" },
+            basaev_batalion: { x: 420, y: 235, strength: 6800, status: "ready" },
+            russian_desant: { x: 999, y: 999, strength: 0, status: "eliminated" }
           },
           arrows: [],
           cityStates: [
-            { id: "sokhumi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "gumista", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
             { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
-            { id: "tamishi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "tamishi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
             { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
           ],
-          tacticalNote: "აფხაზეთი არის საქართველო. ისტორიული მეხსიერება და თავდადება."
+          tacticalNote: "ზავი დაიდო, თუმცა სოხუმი მძიმე არტილერიის გარეშე დარჩა."
+        },
+        {
+          time: 145,
+          date: "1993 წლის 16-27 სექტემბერი - ზავის დარღვევა და სოხუმის ალყა",
+          title: "სოჭის ზავის მუხანათური დარღვევა და სოხუმის დაცემა",
+          description: "16 სექტემბერს მტერმა მოულოდნელად დაარღვია ზავი, რუსული ავიაციისა და ტანკების მხარდაჭერით ალყა შემოარტყა განიარაღებულ სოხუმს. 11-დღიანი უთანასწორო ბრძოლის შემდეგ 27 სექტემბერს სოხუმი დაეცა.",
+          phase: "retreat",
+          armyPositions: {
+            geo_main: { x: 760, y: 440, strength: 8500, status: "retreating" },
+            geo_sokhumi_corps: { x: 530, y: 290, strength: 1800, status: "in_combat" },
+            geo_gagra: { x: 999, y: 999, strength: 0, status: "eliminated" },
+            geo_refugees: { x: 680, y: 270, strength: 220000, status: "retreating" },
+            abkhaz_gudauta: { x: 520, y: 285, strength: 16500, status: "in_combat" },
+            basaev_batalion: { x: 535, y: 300, strength: 7000, status: "in_combat" },
+            russian_desant: { x: 999, y: 999, strength: 0, status: "eliminated" }
+          },
+          arrows: [
+            { fromX: 450, fromY: 260, toX: 530, toY: 290, color: "#dc2626", type: "advance", label: "სოხუმის გენერალური შტურმი" },
+            { fromX: 530, fromY: 300, toX: 760, toY: 440, color: "#e11d48", type: "retreat", label: "უკანდახევა ენგურისკენ" },
+            { fromX: 540, fromY: 280, toX: 740, toY: 220, color: "#f59e0b", type: "retreat", label: "დევნილთა კოლონა ჭუბერისკენ" }
+          ],
+          battleClashes: [
+            { x: 530, y: 290, intensity: 1.0, label: "სოხუმის უკანასკნელი თავდაცვა" }
+          ],
+          cityStates: [
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "abkhaz_coalition", isBesieged: true },
+            { id: "gulripshi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "tamishi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
+          ],
+          tacticalNote: "ჟიული შარტავა და მთავრობის წევრები გმირულად დახვრიტეს სოხუმის მთავრობის სახლთან."
+        },
+        {
+          time: 175,
+          date: "1993 წლის სექტემბრის ბოლო – ოქტომბერი",
+          title: "ჭუბერის გოლგოთა და 300,000 დევნილის ტრაგედია",
+          description: "სოხუმის დაცემის შემდეგ 300 000-მდე მშვიდობიანი ქართველი დევნილი გაუვალ, თოვლიან ჭუბერის უღელტეხილსა და ენგურის ხიდზე გადადის. აფხაზეთის მთლიანი ოკუპაცია და ეთნიკური წმენდა.",
+          phase: "victory",
+          armyPositions: {
+            geo_main: { x: 910, y: 510, strength: 7500, status: "garrison" },
+            geo_sokhumi_corps: { x: 875, y: 185, strength: 1200, status: "garrison" },
+            geo_gagra: { x: 999, y: 999, strength: 0, status: "eliminated" },
+            geo_refugees: { x: 875, y: 175, strength: 200000, status: "garrison" },
+            abkhaz_gudauta: { x: 530, y: 290, strength: 16000, status: "garrison" },
+            basaev_batalion: { x: 600, y: 340, strength: 6800, status: "garrison" },
+            russian_desant: { x: 999, y: 999, strength: 0, status: "eliminated" }
+          },
+          arrows: [
+            { fromX: 740, fromY: 220, toX: 875, toY: 175, color: "#f59e0b", type: "retreat", label: "ჭუბერის გოლგოთა" }
+          ],
+          cityStates: [
+            { id: "leselidze", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gagra", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "pitsunda", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gudauta", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "akhali_atoni", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gumista", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "sokhumi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gulripshi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "tamishi", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "ochamchire", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "tkvarcheli", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "gali", ownerFactionId: "abkhaz_coalition", isBesieged: false },
+            { id: "chuberi", ownerFactionId: "georgia_guard", isBesieged: false },
+            { id: "enguri", ownerFactionId: "georgia_guard", isBesieged: false }
+          ],
+          tacticalNote: "აფხაზეთი არის საქართველო. ისტორიული სიმართლე და ხსოვნა გმირებს."
         }
       ],
-      duration: 30,
+      duration: 180,
       terrain: {
         rivers: [
-          [ { x: 200, y: 80 }, { x: 240, y: 170 } ], // Bzipi / Gagra
-          [ { x: 420, y: 140 }, { x: 440, y: 270 } ], // Gumista River
-          [ { x: 670, y: 220 }, { x: 680, y: 390 } ], // Kodori / Tamishi
-          [ { x: 800, y: 300 }, { x: 840, y: 470 }, { x: 880, y: 580 } ] // Enguri River
+          [ { x: 110, y: 50 }, { x: 130, y: 110 } ], // Psou
+          [ { x: 190, y: 70 }, { x: 220, y: 155 } ], // Bzipi
+          [ { x: 440, y: 130 }, { x: 475, y: 270 } ], // Gumista River
+          [ { x: 640, y: 180 }, { x: 670, y: 385 } ], // Kodori / Tamishi
+          [ { x: 790, y: 260 }, { x: 850, y: 440 }, { x: 910, y: 510 }, { x: 940, y: 600 } ] // Enguri River
         ],
         mountains: [
-          { x: 260, y: 110, radius: 55, label: "გაგრის ქედი" },
-          { x: 460, y: 130, radius: 65, label: "აფხაზეთის კავკასიონი" },
-          { x: 690, y: 180, radius: 60, label: "კოდორის ქედი" },
-          { x: 820, y: 240, radius: 55, label: "სვანეთის ქედი / ჭუბერი" }
+          { x: 230, y: 100, radius: 50, label: "გაგრის ქედი" },
+          { x: 460, y: 120, radius: 65, label: "აფხაზეთის კავკასიონი" },
+          { x: 680, y: 160, radius: 60, label: "კოდორის ქედი" },
+          { x: 860, y: 150, radius: 60, label: "სვანეთის კავკასიონი / ჭუბერი" }
         ],
         forests: [
-          { x: 450, y: 220, radius: 45, label: "გუმისტის ხეობის ტყეები" },
-          { x: 670, y: 330, radius: 50, label: "ტამიშისა და კოდორის ტყეები" }
+          { x: 470, y: 210, radius: 45, label: "გუმისტის ხეობის ტყეები" },
+          { x: 660, y: 320, radius: 50, label: "ტამიშისა და კოდორის ტყეები" },
+          { x: 830, y: 210, radius: 45, label: "ჭუბერის უღელტეხილის ტყეები" }
         ]
       }
     }

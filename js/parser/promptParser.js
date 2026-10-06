@@ -41,15 +41,15 @@ export class GenericPromptInterpreter {
     ];
   }
 
-  parse(rawPrompt) {
-    return this.interpret(rawPrompt);
+  parse(rawPrompt, options = {}) {
+    return this.interpret(rawPrompt, options);
   }
 
   /**
    * Main interpretation entry point
    * Generates a complete, unique, dynamic simulation from arbitrary user prompt.
    */
-  interpret(rawPrompt) {
+  interpret(rawPrompt, options = {}) {
     if (!rawPrompt || rawPrompt.trim().length === 0) {
       throw new Error("გთხოვთ შეიყვანოთ ომის აღწერა.");
     }
@@ -81,6 +81,38 @@ export class GenericPromptInterpreter {
     // 7. Calculate dynamic video & animation duration based on complexity
     const calculatedDuration = Math.max(16, Math.min(90, keyframes.length * 4.2));
 
+    // Determine final duration (seconds)
+    let finalDuration = calculatedDuration;
+    // Override from options if provided
+    if (options && options.durationMinutes && !isNaN(options.durationMinutes)) {
+      finalDuration = Math.max(5, Math.min(options.durationMinutes * 60, 3600));
+    } else {
+      // Also check for inline duration specification in prompt (e.g., "ვიდეოს ხანგრძლივობა: 5 წუთი", "ხანგრძლივობა: 10 წუთი")
+      const durationMatch = text.match(/(?:ვიდეოს\s*)?ხანგრძლივობა\s*[:]?\s*(\d+)\s*წუთ/i);
+      if (durationMatch) {
+        const minutes = parseInt(durationMatch[1], 10);
+        finalDuration = Math.max(5, Math.min(minutes * 60, 3600));
+      }
+    }
+
+    // 8. Voiceover preference detection (Speech narration)
+    let voiceEnabled = true;
+    const lower = text.toLowerCase();
+    if (lower.includes("გახმოვანება არ უნდა") || lower.includes("უხმოდ") || lower.includes("ხმის გარეშე") || lower.includes("ტექსტის ხმა: არია") || lower.includes("არ წაიკითხო") || lower.includes("ხმა არ უნდა")) {
+      voiceEnabled = false;
+    }
+
+    // 9. Overlay text extraction (Custom introduction or dramatic narrative banner)
+    const overlayMatch = text.match(/(?:ტექსტი|ტექსტის\s*ჩვენება|შესავალი)\s*[:]\s*([^\n]+)/i);
+    const overlayText = overlayMatch ? overlayMatch[1].trim() : null;
+
+    // 10. Compute counts for summary
+    const armyCount = armies.length;
+    const cityCount = cities.length;
+    const retreatCount = keyframes.filter(k => k.phase === 'retreat' || (k.arrows && k.arrows.some(a => a.type === 'retreat'))).length;
+    const siegeCount = keyframes.filter(k => k.phase === 'siege' || (k.cityStates && k.cityStates.some(c => c.isBesieged))).length;
+    const summary = `📊 შეჯამება: ჯარები: ${armyCount}, ქალაქები: ${cityCount}, უკანდახევები: ${retreatCount}, ალყები: ${siegeCount}, ხანგრძლივობა: ${Math.round(finalDuration/60) || 1} წუთი (${Math.round(finalDuration)} წმ), გახმოვანება: ${voiceEnabled ? 'ჩართულია' : 'გამორთულია'}.`;
+
     return {
       id: "sim_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       title: title,
@@ -91,9 +123,12 @@ export class GenericPromptInterpreter {
       cities: cities,
       armies: armies,
       keyframes: keyframes,
-      duration: calculatedDuration,
+      duration: finalDuration,
       terrain: terrain,
-      mapBounds: { width: 1000, height: 650 }
+      mapBounds: { width: 1000, height: 650 },
+      voiceEnabled: voiceEnabled,
+      overlayText: overlayText,
+      summary: summary
     };
   }
 

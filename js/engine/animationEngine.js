@@ -140,29 +140,39 @@ export class AnimationEngine {
 
     const kfs = this.scenario.keyframes;
 
-    // 1. Find keyframe interval
+    // 1. Find keyframe interval with exact boundary protection
     let prevKf = kfs[0];
-    let nextKf = kfs[kfs.length - 1];
+    let nextKf = kfs[0];
+    let progress = 0;
 
-    for (let i = 0; i < kfs.length - 1; i++) {
-      if (time >= kfs[i].time && time <= kfs[i + 1].time) {
-        prevKf = kfs[i];
-        nextKf = kfs[i + 1];
-        break;
+    if (time <= kfs[0].time) {
+      prevKf = kfs[0];
+      nextKf = kfs[0];
+      progress = 0;
+    } else if (time >= kfs[kfs.length - 1].time) {
+      prevKf = kfs[kfs.length - 1];
+      nextKf = kfs[kfs.length - 1];
+      progress = 1;
+    } else {
+      for (let i = 0; i < kfs.length - 1; i++) {
+        if (time >= kfs[i].time && time <= kfs[i + 1].time) {
+          prevKf = kfs[i];
+          nextKf = kfs[i + 1];
+          const span = Math.max(0.001, nextKf.time - prevKf.time);
+          progress = Math.max(0, Math.min(1, (time - prevKf.time) / span));
+          break;
+        }
       }
     }
-
-    // Normalized progression between keyframes (0.0 to 1.0)
-    const span = Math.max(0.001, nextKf.time - prevKf.time);
-    let progress = Math.max(0, Math.min(1, (time - prevKf.time) / span));
 
     // Smooth easeInOutSine interpolation
     const easeProgress = -(Math.cos(Math.PI * progress) - 1) / 2;
 
-    // 2. Interpolate Army Positions and Strengths
+    // 2. Interpolate Army Positions and Strengths with safe defaults
     const armyPositions = {};
-    this.scenario.armies.forEach(army => {
-      const pPos = prevKf.armyPositions?.[army.id] || { x: army.startX, y: army.startY, strength: army.strength, status: "ready" };
+    const armies = this.scenario.armies || [];
+    armies.forEach(army => {
+      const pPos = prevKf.armyPositions?.[army.id] || { x: army.startX ?? 500, y: army.startY ?? 325, strength: army.strength ?? 1000, status: "ready" };
       const nPos = nextKf.armyPositions?.[army.id] || pPos;
 
       armyPositions[army.id] = {
@@ -177,9 +187,9 @@ export class AnimationEngine {
     const cityStates = nextKf.cityStates || prevKf.cityStates || [];
 
     // 4. Current Active Arrows
-    const activeArrows = progress > 0.1 && progress < 0.95 ? (prevKf.arrows || []) : [];
+    const activeArrows = (prevKf.arrows || []).concat(nextKf.arrows || []);
 
-    // 5. Current Combat Clashes
+    // 5. Current Combat Clashes with intensity fade
     const battleClashes = (prevKf.battleClashes || []).concat(nextKf.battleClashes || []);
 
     return {
@@ -192,7 +202,7 @@ export class AnimationEngine {
       tacticalNote: progress < 0.5 ? prevKf.tacticalNote : nextKf.tacticalNote,
       armyPositions: armyPositions,
       cityStates: cityStates,
-      arrows: activeArrows.length > 0 ? activeArrows : (nextKf.arrows || []),
+      arrows: activeArrows,
       battleClashes: battleClashes
     };
   }
